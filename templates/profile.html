@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-container">
+<h1 class="welcome-heading">Welcome {{user.username}}</h1>
+<div class="user-details">
+    <h2>{{user.username}}</h2>
+    <p>Email: {{user.email}}</p>
+</div>
+</section>
+
+<footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+{% endblock %}

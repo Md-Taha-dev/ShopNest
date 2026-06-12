@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+<main>
+    <div class="main-categories">
+        <div class="product-categories">
+             <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/babyproducts.png') }}" alt="Baby Products">
+        <p>Baby Products</p>
+    </div>
+            <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/electronics.png') }}" alt="Electronics">
+        <p>Electronics</p>
+    </div>
+            <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/fashion.png') }}" alt="Fashion">
+        <p>Fashion</p>
+    </div>
+            
+            <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/gaming.png') }}" alt="Gaming">
+        <p>Gaming</p>
+    </div>
+              <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/garden.png') }}" alt="Garden">
+        <p>Garden & Outdoor</p>
+    </div>
+              <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/health.png') }}" alt="Health">
+        <p>Health & Beauty</p>
+    </div>
+              <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/office.png') }}" alt="Office">
+        <p>Home & Office</p>
+    </div>
+              <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/sport.png') }}" alt="Sporting Goods">
+        <p>Sporting Goods</p>
+    </div>
+
+              <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/supermarket.png') }}" alt="SuperMarket">
+        <p>SuperMarket</p>
+    </div>
+            </div>
+      <div class="advertisement-1">
+
+    <img src="{{ url_for('static', filename='images/shpnesthome.jpg') }}" alt="">
+
+</div>
+
+            <div class="main-categories-2">
+            <div class="customer-service">
+                 <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/fastdelivery.png') }}" alt="Fast Delivery">
+        <p>Fast Delivery</p>
+    </div>
+  <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/payments.png') }}" alt="Secure Payments">
+        <p>Secure Payments</p>
+    </div>
+      <div class="category-item">
+        <img  src="{{ url_for('static', filename='images/support.png') }}" alt="Customer Support">
+       <p>24/7 Customer Support</p>
+    </div>
+
+            </div>
+            <div class="advertisement-2">
+                 
+
+  <img src="{{ url_for('static', filename='images/headphones.jpg') }}" alt="">
+
+</div>
+        </div>
+        </div>
+
+        <section class="customer-categories">
+            <div class="customer-categories-container">
+                <img src="{{ url_for('static', filename='images/techweek.jpg') }}"  alt="">
+                <p>Tech Week</p>
+            </div>
+            <div class="customer-categories-container">
+                <img src="{{ url_for('static', filename='images/freedelivery.png') }}"  alt="">
+                <p>Free Delivery</p>
+            </div>
+            <div class="customer-categories-container">
+                <img src="{{ url_for('static', filename='images/food.jpg') }}"  alt="">
+                <p>ShopNest Food</p>
+            </div>
+            <div class="customer-categories-container">
+                <img src="{{ url_for('static', filename='images/bills.jpg') }}"  alt="">
+                <p>Airtime & Bills</p>
+            </div>
+        </section>
+
+        <section class="products">
+            <div class="product-grid">
+
+  {% for product in products %}
+
+  <div class="product-card">
+
+    <img src="{{ url_for('static', filename='images/' ~ product.picture) }}" alt="{{ product.product_name }}">
+
+    <p class="product-name">{{ product.product_name }}</p>
+
+    <div class="price-action">
+      <p class="price">Rs. {{ product.price }}</p>
+      <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
+    <button>Add</button>
+</a>
+    </div>
+
+    <p>{{ product.stock }} items left</p>
+
+  </div>
+
+  {% endfor %}
+  </div>
+
+</section>
+
+</main>
+
+    
+{% endblock %}

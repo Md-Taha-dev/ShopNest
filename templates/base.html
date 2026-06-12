@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block css %}
+    
+    {% endblock %}
+    
+    <title>Document</title>
+</head>
+<body>
+    <nav class="nav-container">
+
+  
+  <div class="nav-left">
+    <div id="company-image-logo">
+      <img src="{{ url_for('static', filename='images/shopNestlogo.PNG') }}" alt="ShopNest Logo">
+      <a href="{{url_for('home_page')}}">ShopNest</a>
+    </div>
+
+    <a href="">About us</a>
+    <a href="">Contact us</a>
+  </div>
+
+
+  <div class="nav-center">
+    <form action="{{url_for('search_page')}}" method="get">
+    <input type="text" name="q" placeholder="Search">
+    <button type="submit">Search</button>
+    </form>
+  </div>
+
+
+  <div class="nav-right">
+    <div class="cart-logo">
+    <a href="{{url_for('cart_page')}}">Cart ({{ cart_count }})</a>
+    <img src="{{url_for('static',filename='images/shopping-cart.png')}}" alt="">
+    </div>
+    <div class="wishlist-logo">
+    <a href="">Wishlist</a>
+    <img src="{{url_for('static',filename='images/wishlist.png')}}" alt="">
+    <div class="account-dropdown">
+  <a href="">Account ▾</a>
+
+  {% if current_user.is_authenticated %}
+<div class="dropdown-menu">
+    <a href="{{ url_for('profile_page') }}">Profile</a>
+    <a href="{{ url_for('orders_page') }}">Orders</a>
+    <a href="{{ url_for('logout_page') }}">Logout</a>
+  </div>
+  {% else %}
+ <div class="dropdown-menu">
+    <a href="{{ url_for('login_page') }}">Login</a>
+    <a href="{{ url_for('signup_page') }}">Sign Up</a>
+  </div>
+   {% endif %}
+ 
+</div>
+
+</nav>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  {% for category, message in messages %}
+
+    <div class="flash-message flash-{{ category }}">
+      <span>{{ message }}</span>
+
+      <button type="button" class="flash-close"
+        onclick="this.parentElement.style.display='none'">
+        &times;
+      </button>
+    </div>
+
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+{% block content %}
+{% endblock %}
+</body>
+</html>

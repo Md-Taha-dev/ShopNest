@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+        {% if empty %}
+<h1 class="empty-cart-heading">Your cart is empty</h1>
+           <footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+        {% else %}
+        <h1 class="cart-heading">Shopping Cart</h1>
+        <div class="cart-container">
+
+  
+    <div class="items-section">
+
+            {% for item in items %}
+
+          <div class="cart-item">
+
+    
+    <img src="{{ url_for('static', filename='images/' ~ item.product.picture) }}">
+
+   
+    <div class="cart-details">
+
+      
+        <p class="name">{{ item.product.product_name }}</p>
+
+        <div class="quantity-row">
+            <a href="{{ url_for('decrease_quantity', product_id=item.product.id) }}">
+                <button>-</button>
+            </a>
+
+            <span id="quantity">{{ item.quantity }}</span>
+
+            <a href="{{ url_for('increase_quantity', product_id=item.product.id) }}">
+                <button>+</button>
+            </a>
+        </div>
+
+       
+        <div class="bottom-row">
+            <p>Rs. {{ item.item_total }}</p>
+
+            <a href="{{ url_for('remove_item', product_id=item.product.id) }}">
+                <button>Remove</button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+            {% endfor %}
+
+        
+
+    </div>
+
+    
+    <div class="summary-container">
+
+        <h3>Cart Summary</h3>
+         {% for item in items %}
+         <div class="item-name-price">
+
+    <p >
+        {{ item.product.product_name }}
+    </p>
+
+    <span >
+        {{ item.product.price }} x {{ item.quantity }}
+    </span>
+
+</div>
+            {% endfor %}
+ <div class="item-amount-total">
+
+    <div class="row">
+        <p>Amount:</p>
+        <span>Rs. {{ total }}</span>
+    </div>
+
+    <div class="row">
+        <p><strong>Total </strong>(Including GST + Shipping): </p>
+        <span>Rs. {{ total + 200 }}</span>
+    </div>
+
+</div>
+        <a href="{{ url_for('checkout') }}">
+            <button class="order-btn">Place Order</button>
+        </a>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+{% endif %}
+
+{% endblock %}

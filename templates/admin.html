@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+    <nav class="admin-navbar">
+        <ul>
+            <li><a href="{{ url_for('admin_page', section='users') }}">Users</a></li>
+            <li><a href="{{ url_for('admin_page', section='products') }}">Products</a></li>
+            <li><a href="{{ url_for('admin_page', section='add_product') }}">Add Products</a></li>
+            <li><a href="{{ url_for('admin_page', section='orders') }}">Orders History</a></li>
+        </ul>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, msg in messages %}
+                <div class="alert alert-{{ category }}" style="padding: 10px; margin: 15px; background-color: #d4edda; color: #155724; border-radius: 4px;">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    
+    <div class="admin-content-window">
+
+    
+        {% if section == 'users' %}
+         
+            <table class="admin-table">
+                <thead>
+                    <tr><th>User ID</th><th>Username Name</th><th>Registered Email ID</th><th>Date Joined</th></tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.username }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>{{ row.date_joined.strftime('%Y-%m-%d %H:%M') }}</td>
+             </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% elif section == 'products' %}
+       
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Prod ID</th>
+                        <th>Product Catalogue Name</th>
+                        <th>Item Unit Price</th>
+                        <th>Stock Remaining</th>
+                        <th>Actions Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.product_name }}</td>
+                        <td>₹{{ row.price }}</td>
+                        <td>
+                          
+                            <form action="{{ url_for('admin_update_product_stock', product_id=row.id) }}" method="POST" style="display:inline;">
+                                <input type="number" name="new_stock" value="{{ row.stock }}" style="width: 60px; padding: 4px; text-align: center;" required>
+                                <button type="submit" class="update-action-btn" style="background-color: rgb(57, 57, 249); color: white;">Update Stock</button>
+                            </form>
+                        </td>
+                        <td>
+                           
+                            <form action="{{ url_for('admin_delete_product', product_id=row.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you absolutely sure you want to permanently delete this item from the product registry?');">
+                                <button type="submit" class="update-action-btn" style="background-color: #dc3545; color: white;">Delete Product</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        
+        {% elif section == 'add_product' %}
+           
+            <form action="{{ url_for('admin_add_product') }}" method="POST" class="add-product-form">
+                <label style="color: white; font-size: 20px;">Product Name:</label><br>
+                <input type="text" name="product_name" required><br><br>
+                
+                <label style="color: white; font-size: 20px;">Price:</label><br>
+                <input type="number" step="0.01" name="price" required><br><br>
+                
+                <label style="color: white; font-size: 20px;">Quantity:</label><br>
+                <input type="number" name="stock" required><br><br>
+                
+                <label style="color: white; font-size: 20px;">Image Path:</label><br>
+                <input type="text" name="picture" required><br><br>
+                
+                <button type="submit" class="save-item-btn">Save</button>
+            </form>
+
+        
+        {% elif section == 'orders' %}
+           
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th><th>Buyer Client</th><th>Target Product</th>
+                        <th>Qty Purchased</th><th>Total Billed Price</th><th>Live Delivery Status</th><th>Modify Delivery Stage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.user.username }}</td>
+                        <td>{{ row.product.product_name }}</td>
+                        <td>{{ row.quantity }}</td>
+                        <td>₹{{ row.price * row.quantity }}</td>
+                        <td><strong style="color: blue;">{{ row.status }}</strong></td>
+                        <td>
+                            <form action="{{ url_for('admin_update_status', order_id=row.id) }}" method="POST">
+                                <select name="new_status">
+                                    <option value="Pending" {% if row.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Processing" {% if row.status == 'Processing' %}selected{% endif %}>Processing</option>
+                                    <option value="Out For Delivery" {% if row.status == 'Out For Delivery' %}selected{% endif %}>Out For Delivery</option>
+                                    <option value="Delivered" {% if row.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                                    <option value="Cancelled" {% if row.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                </select>
+                                <button type="submit" class="update-action-btn">Update & Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+
+    <footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+</body>
+</html>

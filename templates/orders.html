@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+    {% if empty %}
+
+        <div style="text-align:center; color:white; width:100%;">
+            <h2 class="empty-cart-heading">No orders yet</h2>
+            
+        </div>
+        <footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+    {% else %}
+
+    <h1 class="cart-heading">My Orders</h1>
+
+    <div class="cart-container"></div>
+
+        <div class="items-section">
+
+            {% for order in orders %}
+
+            <div class="cart-item">
+
+               
+                <img src="{{ url_for('static', filename='images/' ~ order.product.picture) }}">
+
+                
+                <div class="cart-details">
+
+                    
+                    <p class="name">{{ order.product.product_name }}</p>
+
+                    
+                    <div class="quantity-row">
+                        <span>Quantity: {{ order.quantity }}</span>
+                    </div>
+
+                   
+                    <div class="bottom-row">
+                        <p>Rs. {{ order.price * order.quantity }}</p>
+
+                       
+                    </div>
+
+                   
+                    <p class="status">
+                        Order Status: {{ order.status }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+        <footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

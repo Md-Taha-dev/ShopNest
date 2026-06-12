@@ -1,0 +1,49 @@
+.product-search-card{
+    background-color: white;
+    width: 1200px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.price-button{
+    display: flex;
+    align-items: center;
+    gap:440px;
+}
+
+.price-button p{
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.prod-img{
+    margin-top: 20px;
+}
+
+#prod-name{
+     color: gray;
+    font-size: 16px;
+    margin:15px;
+}
+
+#prod-stock{
+    margin-top: 35px;
+    margin-bottom: 0;
+}
+
+.footer{
+    background-color: #ff6b00;
+    text-align: center;
+    color: white;
+    padding: 15px;
+   font-size: 18px;
+}
+
+.footer a{
+  
+    color: white;
+}

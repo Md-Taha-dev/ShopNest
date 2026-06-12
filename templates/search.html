@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/search.css')}}">
+{% endblock %}
+
+{% block content %}
+
+
+
+<section class="products">
+
+  {% for product in products %}
+  <div class="product-search-card">
+
+    <img class="prod-img" src="{{ url_for('static', filename='images/' ~ product.picture) }}">
+
+    <p id="prod-name">{{ product.product_name }}</p>
+<div class="price-button">
+    <p>Rs. {{ product.price }}</p>
+
+    <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
+    <button>Add</button>
+</a>
+    
+</div>
+<p id="prod-stock">{{product.stock}} items left
+    </p>
+  </div>
+  {% endfor %}
+
+</section>
+
+<footer class="footer">
+  <p><a href="{{url_for('home_page')}}">ShopNest</a> | &copy; 2026 All rights reserved</p>
+</footer>
+
+{% endblock %}
+
